@@ -83,7 +83,7 @@ return [
     |
     */
 
-    'table' => 'sessions',
+    'table' => env('SESSION_DRIVER_DB_TABLE', 'sessions'),
 
     /*
     |--------------------------------------------------------------------------

@@ -1,7 +1,5 @@
 <?php
 
-\Log::info("URL Call: [" . array_get($_SERVER, "REMOTE_ADDR", "127.0.0.1") . "] " . Request::method() . ":" . Request::path());
-
 Route::get("/home", function(){ return View::make("home"); });
 Route::get("/flightslist", function(){ return View::make("flightlist"); });
 Route::get("/bookinglist", function(){ return View::make("bookinglist"); });

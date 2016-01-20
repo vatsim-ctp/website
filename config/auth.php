@@ -67,7 +67,7 @@ return [
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => CTP\User::class,
+            'model' => CTP\Models\User::class,
         ],
 
         // 'users' => [
