@@ -1,0 +1,7 @@
+{
+  "name": "VFMU API",
+  "version": "1.0.0",
+  "description": "VATSIM's central flight and ATC booking system.",
+  "title": "VFMU API Documentation",
+  "url" : "http://7ux.co.uk/vfmu/server/public/api"
+}
