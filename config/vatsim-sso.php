@@ -14,9 +14,14 @@
  * on the second line of the key/secret/cert elements
  */
 
-const SSO_KEY_KEY = 'SSO_KEY';
-const SSO_SECRET_KEY = 'SSO_SECRET';
-const SSO_CERT_KEY = 'SSO_CERT';
+if(!defined("SSO_KEY_KEY"))
+    define("SSO_KEY_KEY", "SSO_KEY");
+
+if(!defined("SSO_SECRET_KEY"))
+    define("SSO_SECRET_KEY", "SSO_SECRET");
+
+if(!defined("SSO_CERT_KEY"))
+    define("SSO_CERT_KEY", "SSO_CERT");
 
 return [
 
