@@ -1,4 +1,6 @@
-<?php namespace CTP\Http\Controllers\Site;
+<?php
+
+namespace CTP\Http\Controllers\Site;
 
 use Auth;
 use CTP\Models\Airfield;
@@ -13,14 +15,14 @@ class Voting extends BaseController
 {
     public function getIndex(Request $request)
     {
-        $canVoteOnDeparture = !Auth::user()->has_voted_for_departure;
+        $canVoteOnDeparture = ! Auth::user()->has_voted_for_departure;
 
         if ($canVoteOnDeparture) {
             $departureAirfields = Airfield::forEvent(Event::getCurrent()->id)
                                           ->departure()
                                           ->inRandomOrder()
                                           ->get();
-        } elseif(Setting::getValue("voting.show_results_after")) {
+        } elseif (Setting::getValue('voting.show_results_after')) {
             $departureAirfields = Airfield::forEvent(Event::getCurrent()->id)
                                           ->departure()
                                           ->get()
@@ -31,14 +33,14 @@ class Voting extends BaseController
             $departureAirfields = [];
         }
 
-        $canVoteOnArrival = !Auth::user()->has_voted_for_arrival;
+        $canVoteOnArrival = ! Auth::user()->has_voted_for_arrival;
 
         if ($canVoteOnArrival) {
             $arrivalAirfields = Airfield::forEvent(Event::getCurrent()->id)
                                         ->arrival()
                                         ->inRandomOrder()
                                         ->get();
-        } elseif(Setting::getValue("voting.show_results_after")) {
+        } elseif (Setting::getValue('voting.show_results_after')) {
             $arrivalAirfields = Airfield::forEvent(Event::getCurrent()->id)
                                         ->arrival()
                                         ->get()
@@ -49,11 +51,11 @@ class Voting extends BaseController
             $arrivalAirfields = [];
         }
 
-        return view("site.voting.index")
-            ->with("departureAirfields", $departureAirfields)
-            ->with("canVoteOnDeparture", $canVoteOnDeparture)
-            ->with("arrivalAirfields", $arrivalAirfields)
-            ->with("canVoteOnArrival", $canVoteOnArrival);
+        return view('site.voting.index')
+            ->with('departureAirfields', $departureAirfields)
+            ->with('canVoteOnDeparture', $canVoteOnDeparture)
+            ->with('arrivalAirfields', $arrivalAirfields)
+            ->with('canVoteOnArrival', $canVoteOnArrival);
     }
 
     public function postCast($type, Airfield $airfield, Request $request)
@@ -69,6 +71,6 @@ class Voting extends BaseController
             // Do nothing.  Duplicated.
         }
 
-        return redirect()->route("voting.list");
+        return redirect()->route('voting.list');
     }
 }

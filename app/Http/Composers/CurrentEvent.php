@@ -7,7 +7,6 @@ use Illuminate\View\View;
 
 class CurrentEvent
 {
-
     /**
      * Create a new current event composer.
      *
@@ -28,6 +27,6 @@ class CurrentEvent
     {
         $currentEvent = Event::getCurrent();
 
-        $view->with("_event", $currentEvent);
+        $view->with('_event', $currentEvent);
     }
 }

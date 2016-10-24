@@ -4,7 +4,6 @@ namespace CTP\Http\Middleware;
 
 use Closure;
 use CTP\Models\Event;
-use Illuminate\Support\Facades\Auth;
 
 class VotingEnabled
 {
@@ -21,12 +20,12 @@ class VotingEnabled
     {
         $currentEvent = Event::getCurrent();
 
-        if ($currentEvent->is_voting_enabled && $request->is("landing")) {
-            return redirect()->route("voting.list");
+        if ($currentEvent->is_voting_enabled && $request->is('landing')) {
+            return redirect()->route('voting.list');
         }
 
-        if (!$currentEvent->is_voting_enabled && $request->is("voting*")) {
-            return redirect()->route("landing");
+        if (! $currentEvent->is_voting_enabled && $request->is('voting*')) {
+            return redirect()->route('landing');
         }
 
         return $next($request);

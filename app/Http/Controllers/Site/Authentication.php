@@ -1,4 +1,6 @@
-<?php namespace CTP\Http\Controllers\Site;
+<?php
+
+namespace CTP\Http\Controllers\Site;
 
 use CTP\Models\User;
 use Illuminate\Http\Request;
@@ -9,48 +11,52 @@ use URL;
 
 class Authentication extends BaseController
 {
-    public function getLogin(Request $request){
-        if (!$request->session()->has("auth_return")) {
-            $request->session()->set('auth_return', $request->input('returnURL', "/"));
+    public function getLogin(Request $request)
+    {
+        if (! $request->session()->has('auth_return')) {
+            $request->session()->set('auth_return', $request->input('returnURL', '/'));
         }
 
         // Do we already have some kind of CID? If so, we can skip this bit and go to the redirect!
         if (Auth::check() || Auth::viaRemember()) {
-            return redirect("/");
+            return redirect('/');
         }
 
         // Just, native VATSIM.net SSO login.
         return VatsimSSO::login(
             [URL::route('login.verify'), 'suspended' => true, 'inactive' => true],
-            function ($key, $secret, $url) use($request) {
+            function ($key, $secret, $url) use ($request) {
                 $request->session()->put('vatsimauth', compact('key', 'secret'));
+
                 return redirect($url);
             },
             function ($error) use ($request) {
                 $request->session()->set('cert_offline', true);
                 dd($error);
-                return redirect("/");
+
+                return redirect('/');
             }
         );
     }
 
-    public function getVerify(Request $request){
+    public function getVerify(Request $request)
+    {
         if ($request->input('oauth_cancel') !== null) {
-            dd("ERROR PAGE HERE -- OAUTH_CANCEL");
+            dd('ERROR PAGE HERE -- OAUTH_CANCEL');
         }
 
-        if (!$request->session()->has('vatsimauth')) {
-            dd("ERROR PAGE HERE -- OAUTH_CANCEL");
+        if (! $request->session()->has('vatsimauth')) {
+            dd('ERROR PAGE HERE -- OAUTH_CANCEL');
         }
 
         $session = $request->session()->get('vatsimauth');
 
         if ($request->input('oauth_token') !== $session['key']) {
-            dd("ERROR PAGE HERE -- RETURNED TOKEN MISMATCH");
+            dd('ERROR PAGE HERE -- RETURNED TOKEN MISMATCH');
         }
 
-        if (!$request->input('oauth_verifier')) {
-            dd("ERROR PAGE HERE -- VERIFICATION CODE AWOL");
+        if (! $request->input('oauth_verifier')) {
+            dd('ERROR PAGE HERE -- VERIFICATION CODE AWOL');
         }
 
         return VatsimSSO::validate($session['key'], $session['secret'], $request->input('oauth_verifier'), function ($user, $request) {
@@ -72,7 +78,7 @@ class Authentication extends BaseController
 
             Auth::login($user, true);
 
-            return redirect($request->session()->get("auth_return", "/"));
+            return redirect($request->session()->get('auth_return', '/'));
         }, function ($error) {
             throw new \Exception($error['message']);
         });
