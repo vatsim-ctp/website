@@ -15,15 +15,15 @@ class CreateEventsTable extends Migration
     {
         Schema::create('events', function (Blueprint $table) {
             $table->increments('id');
-            $table->string("code", 4);
-            $table->string("name", 100);
-            $table->timestamp("application_start")->nullable();
-            $table->timestamp("application_finish")->nullable();
-            $table->timestamp("voting_start")->nullable();
-            $table->timestamp("voting_finish")->nullable();
-            $table->timestamp("event_start")->nullable();
-            $table->timestamp("event_finish")->nullable();
-            $table->boolean("current")->default(false);
+            $table->string('code', 4);
+            $table->string('name', 100);
+            $table->timestamp('application_start')->nullable();
+            $table->timestamp('application_finish')->nullable();
+            $table->timestamp('voting_start')->nullable();
+            $table->timestamp('voting_finish')->nullable();
+            $table->timestamp('event_start')->nullable();
+            $table->timestamp('event_finish')->nullable();
+            $table->boolean('current')->default(false);
             $table->timestamps();
         });
     }

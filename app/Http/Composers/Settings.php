@@ -8,7 +8,6 @@ use Illuminate\View\View;
 
 class Settings
 {
-
     /**
      * Create a new current event composer.
      *
@@ -29,8 +28,8 @@ class Settings
     {
         $settings = Setting::all();
 
-        foreach($settings as $setting){
-            $view->with("setting_".str_replace(".", "_", $setting->code), $setting->value);
+        foreach ($settings as $setting) {
+            $view->with('setting_'.str_replace('.', '_', $setting->code), $setting->value);
         }
     }
 }
