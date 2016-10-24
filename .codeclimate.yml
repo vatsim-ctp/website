@@ -1,7 +1,6 @@
 engines:
   csslint:
     enabled: true
-    channel: "eslint-2"
   duplication:
     enabled: true
     config:
@@ -12,6 +11,7 @@ engines:
       - php
   eslint:
     enabled: true
+    channel: "eslint-2"
   fixme:
     enabled: true
   phpmd:
