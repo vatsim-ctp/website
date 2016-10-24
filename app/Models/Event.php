@@ -1,27 +1,42 @@
 <?php
 
-namespace \CTP\Models;
+namespace CTP\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Event extends Model {
+class Event extends Model
+{
+    public $dates = [
+        "application_start", "application_finish",
+        "voting_start", "voting_finish",
+        "event_start", "event_finish",
+        'created_at', 'updated_at',
+    ];
 
-	protected $table = 'event';
-	public $timestamps = true;
+    public static function getCurrent(){
+        return Event::current()->first();
+    }
 
-	use SoftDeletes;
+    public function scopeCurrent($query){
+        return $query->where("current", "=", 1);
+    }
 
-	protected $dates = ['deleted_at'];
+    public function mailingList(){
+        return $this->hasMany(MailingList::class, "event_id", "id");
+    }
 
-	public function airports()
-	{
-		return $this->hasManyThrough('\CTP\Models\Airport', '\CTP\Models\Event\Airport')->withPivot("type");
-	}
+    public function getIsVotingEnabledAttribute(){
+        $currentEvent = Event::getCurrent();
 
-	public function nominations()
-	{
-		return $this->hasMany('\CTP\Models\Event\Nomination');
-	}
+        if(!$currentEvent->voting_start){
+            return false;
+        }
 
+        if(!$currentEvent->voting_finish){
+            return false;
+        }
+
+        return Carbon::now()->between($currentEvent->voting_start, $currentEvent->voting_finish);
+    }
 }

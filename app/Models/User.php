@@ -1,32 +1,42 @@
 <?php
 
-namespace \CTP\Models;
+namespace CTP\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\Access\Authorizable;
+use Illuminate\Notifications\Notifiable;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Model {
+class User extends Authenticatable
+{
 
-	protected $table = 'user';
-	public $timestamps = true;
+    use Authorizable, Notifiable;
 
-	use SoftDeletes;
+    public function votesAll()
+    {
+        return $this->hasMany(Vote::class, "user_id", "id");
+    }
 
-	protected $dates = ['deleted_at'];
+    public function votes()
+    {
+        return $this->votesAll()
+                    ->with("airfield")
+                    ->whereHas("airfield", function($airfield){
+                        $airfield->where("event_id", "=", Event::getCurrent()->id);
+                    });;
+    }
 
-	public function votes()
-	{
-		return $this->hasMany('\CTP\Models\Event\Nomination\Vote');
-	}
+    public function getHasVotedForDepartureAttribute()
+    {
+        return $this->votes->filter(function ($vote) {
+            return $vote->airfield->is_departure;
+        })->count() > 0;
+    }
 
-	public function bookings()
-	{
-		return $this->hasMany('\CTP\Models\Booking');
-	}
-
-	public function oldBookings()
-	{
-		return $this->hasMany('\CTP\Models\Booking')->onlyTrashed();
-	}
-
+    public function getHasVotedForArrivalAttribute()
+    {
+        return $this->votes->filter(function ($vote) {
+            return $vote->airfield->is_arrival;
+        })->count() > 0;
+    }
 }

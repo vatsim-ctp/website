@@ -1,27 +1,18 @@
 <?php
 
-namespace \CTP\Models\Event\Nomination;
+namespace CTP\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Vote extends Model {
+class Vote extends Model
+{
+    public $dates = ["created_at", "updated_at"];
 
-	protected $table = 'event_nomination_vote';
-	public $timestamps = true;
+    public function event(){
+        return $this->belongsTo(Event::class, "event_id", "id");
+    }
 
-	use SoftDeletes;
-
-	protected $dates = ['deleted_at'];
-
-	public function nomination()
-	{
-		return $this->belongsTo('\CTP\Models\Event\Nomination');
-	}
-
-	public function user()
-	{
-		return $this->belongsTo('\CTP\Models\User');
-	}
-
+    public function airfield(){
+        return $this->belongsTo(Airfield::class, "airfield_id", "id");
+    }
 }
