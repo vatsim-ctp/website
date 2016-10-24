@@ -3,13 +3,32 @@ language: php
 php:
   - 5.6
 
-before_script:
+services:
+  - mysql
+
+before_install:
+  - mysql -e 'create database IF NOT EXISTS ctp_nextgen;" -uroot
+
+install:
   - cp .env.example .env
-  - mysql -e 'create database ctp_nextgen;'
   - composer self-update
   - composer install --no-interaction -o --no-dev
   - php artisan key:generate
   - php artisan migrate
 
+before_script:
+
 script:
   - vendor/bin/phpunit
+
+after_success:
+
+after_failure:
+
+before_deploy:
+
+deploy:
+
+after_deploy:
+
+after_script:
