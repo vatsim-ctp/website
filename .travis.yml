@@ -12,7 +12,7 @@ before_install:
 install:
   - cp .env.example .env
   - composer self-update
-  - composer install --no-interaction -o --no-dev
+  - composer install --no-interaction -o
   - php artisan key:generate
   - php artisan migrate
 
