@@ -19,9 +19,9 @@ class CreateSettingsTable extends Migration
             $table->text('description');
             $table->boolean('value')->default(0);
             $table->timestamps();
-        });
 
-        $table->unique('code');
+            $table->unique('code');
+        });
 
         DB::table('settings')->insert([
             ['code' => 'voting.show_results_before', 'description' => 'Set to TRUE to show the total votes BEFORE a user casts their vote.', 'value' => 0],
