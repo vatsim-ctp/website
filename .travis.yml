@@ -7,7 +7,7 @@ services:
   - mysql
 
 before_install:
-  - mysql -e 'create database IF NOT EXISTS ctp_nextgen;" -uroot
+  - mysql -e 'create database IF NOT EXISTS ctp_nextgen;"
 
 install:
   - cp .env.example .env
