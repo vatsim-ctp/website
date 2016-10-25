@@ -2,8 +2,7 @@
 
 [![Build Status](https://travis-ci.org/vatsim-ctp/website.svg?branch=master)](https://travis-ci.org/vatsim-ctp/website)
 ![StyleCI Status](https://styleci.io/repos/71746664/shield?branch=master)
-[![Code Climate](https://codeclimate.com/github/vatsim-ctp/website/badges/gpa.svg)](https://codeclimate.com/github/vatsim-ctp/website)
-[![Issue Count](https://codeclimate.com/github/vatsim-ctp/website/badges/issue_count.svg)](https://codeclimate.com/github/vatsim-ctp/website)
+[![Code Climate](https://codeclimate.com/github/vatsim-ctp/website/badges/gpa.svg?branch=master)](https://codeclimate.com/github/vatsim-ctp/website)
 
 ## Installation
 
