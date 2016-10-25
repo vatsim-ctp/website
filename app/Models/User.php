@@ -20,9 +20,9 @@ class User extends Authenticatable
     public function voteType($type)
     {
         return $this->votesAll()
-                    ->with("airfield")
-                    ->whereHas("airfield", function ($airfield) use ($type) {
-                        $airfield->where("type", "=", $type);
+                    ->with('airfield')
+                    ->whereHas('airfield', function ($airfield) use ($type) {
+                        $airfield->where('type', '=', $type);
                     });
     }
 
@@ -33,13 +33,12 @@ class User extends Authenticatable
 
     public function getVoteDepartureAttribute()
     {
-        return $this->getVoteFor("departure");
+        return $this->getVoteFor('departure');
     }
 
     public function getVoteArrivalAttribute()
     {
-        return $this->getVoteFor("arrival");
-
+        return $this->getVoteFor('arrival');
     }
 
     public function hasVotedFor($type)
@@ -49,11 +48,11 @@ class User extends Authenticatable
 
     public function getHasVotedForDepartureAttribute()
     {
-        return $this->hasVotedFor("departure");
+        return $this->hasVotedFor('departure');
     }
 
     public function getHasVotedForArrivalAttribute()
     {
-        return $this->hasVotedFor("arrival");
+        return $this->hasVotedFor('arrival');
     }
 }

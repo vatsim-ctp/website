@@ -21,7 +21,7 @@ class VotingEnabled
             return redirect()->route('voting.list');
         }
 
-        if (!voting_available() && $request->is('voting*')) {
+        if (! voting_available() && $request->is('voting*')) {
             return redirect()->route('landing');
         }
 
