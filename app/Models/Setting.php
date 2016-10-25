@@ -8,7 +8,7 @@ class Setting extends Model
 {
     public function scopeAspect($query, $aspect)
     {
-        return $query->where("aspect", "LIKE", $aspect);
+        return $query->where('aspect', 'LIKE', $aspect);
     }
 
     public function scopeCode($query, $code)
@@ -28,7 +28,7 @@ class Setting extends Model
 
     public function getValueOrDefaultAttribute()
     {
-        if(!$this->attributes['value']){
+        if (! $this->attributes['value']) {
             return $this->attributes['value_default'];
         }
 

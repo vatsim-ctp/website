@@ -2,7 +2,7 @@
 
 function setting($aspect, $code, $default = null)
 {
-    $cacheKey = "setting_" . $aspect . "_" . $code;
+    $cacheKey = 'setting_'.$aspect.'_'.$code;
 
     if (Cache::has($cacheKey)) {
         return Cache::get($cacheKey);
@@ -10,20 +10,20 @@ function setting($aspect, $code, $default = null)
 
     $setting = \CTP\Models\Setting::findFull($aspect, $code)->first();
 
-    if (!$setting) {
+    if (! $setting) {
         return $default;
     }
 
     $settingValue = $setting->value_or_default;
 
     switch ($setting->type) {
-        case "boolean":
-            $settingValue = (bool)$settingValue;
+        case 'boolean':
+            $settingValue = (bool) $settingValue;
             break;
 
-        case "date":
-        case "time":
-        case "timestamp":
+        case 'date':
+        case 'time':
+        case 'timestamp':
             $settingValue = \Carbon\Carbon::parse($settingValue);
             break;
     }

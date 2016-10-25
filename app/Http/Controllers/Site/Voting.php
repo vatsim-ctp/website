@@ -21,7 +21,7 @@ class Voting extends BaseController
             $departureAirfields = Airfield::departure()
                                         ->inRandomOrder()
                                         ->get();
-        } elseif (setting('voting','show_results_after')) {
+        } elseif (setting('voting', 'show_results_after')) {
             $departureAirfields = Airfield::departure()
                                         ->get()
                                         ->sortByDesc(function ($airfield) {
@@ -38,7 +38,7 @@ class Voting extends BaseController
             $arrivalAirfields = Airfield::arrival()
                                       ->inRandomOrder()
                                       ->get();
-        } elseif (setting("voting", "show_results_after")) {
+        } elseif (setting('voting', 'show_results_after')) {
             $arrivalAirfields = Airfield::arrival()
                                       ->get()
                                       ->sortByDesc(function ($airfield) {
@@ -51,10 +51,10 @@ class Voting extends BaseController
         return view('site.voting.index')
             ->with('departureAirfields', $departureAirfields)
             ->with('canVoteOnDeparture', $canVoteOnDeparture)
-            ->with("hasVotedOnDeparture", $hasVotedOnDeparture)
+            ->with('hasVotedOnDeparture', $hasVotedOnDeparture)
             ->with('arrivalAirfields', $arrivalAirfields)
             ->with('canVoteOnArrival', $canVoteOnArrival)
-            ->with("hasVotedOnArrival", $hasVotedOnArrival);
+            ->with('hasVotedOnArrival', $hasVotedOnArrival);
     }
 
     public function postCast($type, Airfield $airfield, Request $request)

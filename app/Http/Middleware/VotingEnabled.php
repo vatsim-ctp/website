@@ -3,7 +3,6 @@
 namespace CTP\Http\Middleware;
 
 use Closure;
-use CTP\Models\Event;
 
 class VotingEnabled
 {
