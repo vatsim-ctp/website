@@ -34,22 +34,15 @@ $factory->state(CTP\Models\Airfield::class, 'approved', function (Faker\Generato
 
 $factory->define(CTP\Models\User::class, function (Faker\Generator $faker) {
     return [
-<<<<<<< HEAD
         'id'         => $faker->numberBetween(810000, 1300000),
         "name_first" => $faker->firstName,
         "name_last"  => $faker->lastName,
         "email"      => $faker->email,
-=======
-        'code'      => $faker->randomLetter.$faker->randomLetter.$faker->numberBetween(10, 20),
-        'name'      => $faker->company,
-        'current'     => 0,
->>>>>>> fa207dfc409d82880d7ef4f777f8125f9948563b
     ];
 });
 
 $factory->state(CTP\Models\User::class, "admin", function (Faker\Generator $faker) {
     return [
-<<<<<<< HEAD
         "admin" => 1,
     ];
 });
@@ -70,16 +63,5 @@ $factory->state(CTP\Models\Vote::class, "arrival", function (Faker\Generator $fa
 $factory->state(CTP\Models\Vote::class, "departure", function (Faker\Generator $faker) {
     return [
         "airfield_id" => CTP\Models\Airfield::departure()->inRandomOrder()->first()->id,
-=======
-        'code'      => $faker->randomLetter.$faker->randomLetter.$faker->numberBetween(10, 20),
-        'name'      => $faker->company,
-        'current'     => 0,
-    ];
-});
-
-$factory->state(CTP\Models\User::class, 'admin', function (Faker\Generator $faker) {
-    return [
-        'admin' => 1,
->>>>>>> fa207dfc409d82880d7ef4f777f8125f9948563b
     ];
 });
