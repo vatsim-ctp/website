@@ -14,8 +14,8 @@ class Voting extends BaseController
 {
     public function getIndex(Request $request)
     {
-        $hasVotedOnDeparture = Auth::user()->hasVotedFor("departure");
-        $canVoteOnDeparture = !$hasVotedOnDeparture;
+        $hasVotedOnDeparture = Auth::user()->hasVotedFor('departure');
+        $canVoteOnDeparture = ! $hasVotedOnDeparture;
 
         if ($canVoteOnDeparture) {
             $departureAirfields = Airfield::departure()
@@ -31,8 +31,8 @@ class Voting extends BaseController
             $departureAirfields = [];
         }
 
-        $hasVotedOnArrival = Auth::user()->hasVotedFor("arrival");
-        $canVoteOnArrival = !$hasVotedOnArrival;
+        $hasVotedOnArrival = Auth::user()->hasVotedFor('arrival');
+        $canVoteOnArrival = ! $hasVotedOnArrival;
 
         if ($canVoteOnArrival) {
             $arrivalAirfields = Airfield::arrival()

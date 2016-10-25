@@ -53,18 +53,18 @@ class SettingTableSeeder extends Seeder
               'updated_at' => \Carbon\Carbon::now(),
           ]);
 
-        DB::table("settings")->where("aspect", "=", "voting")
-          ->where("code", "=", "open")
+        DB::table('settings')->where('aspect', '=', 'voting')
+          ->where('code', '=', 'open')
           ->update([
-              "value"      => \Carbon\Carbon::now()->subDays(2)->toDateTimeString(),
-              "updated_at" => \Carbon\Carbon::now()
+              'value'      => \Carbon\Carbon::now()->subDays(2)->toDateTimeString(),
+              'updated_at' => \Carbon\Carbon::now(),
           ]);
 
-        DB::table("settings")->where("aspect", "=", "voting")
-          ->where("code", "=", "close")
+        DB::table('settings')->where('aspect', '=', 'voting')
+          ->where('code', '=', 'close')
           ->update([
-              "value"      => \Carbon\Carbon::now()->addDays(2)->toDateTimeString(),
-              "updated_at" => \Carbon\Carbon::now()
+              'value'      => \Carbon\Carbon::now()->addDays(2)->toDateTimeString(),
+              'updated_at' => \Carbon\Carbon::now(),
           ]);
     }
 }
