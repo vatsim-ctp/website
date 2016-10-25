@@ -7,10 +7,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Landing extends BaseController
 {
-    //
-//    public function getHomepage() {
-//        return $this->viewMake("home");
-//    }
 
     public function getLanding(Request $request)
     {

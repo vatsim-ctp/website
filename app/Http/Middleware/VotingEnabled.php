@@ -18,15 +18,13 @@ class VotingEnabled
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $currentEvent = Event::getCurrent();
-
-        if ($currentEvent->is_voting_enabled && $request->is('landing')) {
-            return redirect()->route('voting.list');
-        }
-
-        if (! $currentEvent->is_voting_enabled && $request->is('voting*')) {
-            return redirect()->route('landing');
-        }
+//        if ($currentEvent->is_voting_enabled && $request->is('landing')) {
+//            return redirect()->route('voting.list');
+//        }
+//
+//        if (! $currentEvent->is_voting_enabled && $request->is('voting*')) {
+//            return redirect()->route('landing');
+//        }
 
         return $next($request);
     }

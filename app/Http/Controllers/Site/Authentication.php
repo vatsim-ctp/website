@@ -13,6 +13,11 @@ class Authentication extends BaseController
 {
     public function getLogin(Request $request)
     {
+        if(\App::environment('local')){
+            \Auth::loginUsingId(980234);
+            return redirect("/");
+        }
+
         if (! $request->session()->has('auth_return')) {
             $request->session()->set('auth_return', $request->input('returnURL', '/'));
         }

@@ -4,7 +4,6 @@ namespace CTP\Http\Controllers\Site;
 
 use Auth;
 use CTP\Models\Airfield;
-use CTP\Models\Event;
 use CTP\Models\Setting;
 use CTP\Models\Vote;
 use Illuminate\Database\QueryException;
@@ -15,38 +14,36 @@ class Voting extends BaseController
 {
     public function getIndex(Request $request)
     {
-        $canVoteOnDeparture = ! Auth::user()->has_voted_for_departure;
+        $hasVotedOnDeparture = Auth::user()->has_voted_for_departure;
+        $canVoteOnDeparture = !$hasVotedOnDeparture;
 
         if ($canVoteOnDeparture) {
-            $departureAirfields = Airfield::forEvent(Event::getCurrent()->id)
-                                          ->departure()
-                                          ->inRandomOrder()
-                                          ->get();
-        } elseif (Setting::getValue('voting.show_results_after')) {
-            $departureAirfields = Airfield::forEvent(Event::getCurrent()->id)
-                                          ->departure()
-                                          ->get()
-                                          ->sortByDesc(function ($airfield) {
-                                              return $airfield->votes->count();
-                                          });
-        } else {
-            $departureAirfields = [];
-        }
-
-        $canVoteOnArrival = ! Auth::user()->has_voted_for_arrival;
-
-        if ($canVoteOnArrival) {
-            $arrivalAirfields = Airfield::forEvent(Event::getCurrent()->id)
-                                        ->arrival()
+            $departureAirfields = Airfield::departure()
                                         ->inRandomOrder()
                                         ->get();
-        } elseif (Setting::getValue('voting.show_results_after')) {
-            $arrivalAirfields = Airfield::forEvent(Event::getCurrent()->id)
-                                        ->arrival()
+        } elseif (setting('voting','show_results_after')) {
+            $departureAirfields = Airfield::departure()
                                         ->get()
                                         ->sortByDesc(function ($airfield) {
                                             return $airfield->votes->count();
                                         });
+        } else {
+            $departureAirfields = [];
+        }
+
+        $hasVotedOnArrival = Auth::user()->has_voted_for_arrival;
+        $canVoteOnArrival = !$hasVotedOnArrival;
+
+        if ($canVoteOnArrival) {
+            $arrivalAirfields = Airfield::arrival()
+                                      ->inRandomOrder()
+                                      ->get();
+        } elseif (setting("voting", "show_results_after")) {
+            $arrivalAirfields = Airfield::arrival()
+                                      ->get()
+                                      ->sortByDesc(function ($airfield) {
+                                          return $airfield->votes->count();
+                                      });
         } else {
             $arrivalAirfields = [];
         }
@@ -54,20 +51,22 @@ class Voting extends BaseController
         return view('site.voting.index')
             ->with('departureAirfields', $departureAirfields)
             ->with('canVoteOnDeparture', $canVoteOnDeparture)
+            ->with("hasVotedOnDeparture", $hasVotedOnDeparture)
             ->with('arrivalAirfields', $arrivalAirfields)
-            ->with('canVoteOnArrival', $canVoteOnArrival);
+            ->with('canVoteOnArrival', $canVoteOnArrival)
+            ->with("hasVotedOnArrival", $hasVotedOnArrival);
     }
 
     public function postCast($type, Airfield $airfield, Request $request)
     {
         $vote = new Vote();
+        $vote->event_id = Event::getCurrent()->id;
         $vote->airfield_id = $airfield->id;
         $vote->user_id = Auth::user()->id;
 
         try {
             $vote->save();
         } catch (QueryException $qe) {
-            dd($qe);
             // Do nothing.  Duplicated.
         }
 

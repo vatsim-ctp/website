@@ -6,40 +6,51 @@ use Illuminate\Database\Eloquent\Model;
 
 class Airfield extends Model
 {
-    public $dates = ['created_at', 'updated_at'];
+    public $dates    = ['created_at', 'updated_at'];
+    public $fillable = [
+        "icao",
+        "iata",
+        "name",
+        "latitude",
+        "longitude",
+        "timezone",
+    ];
 
-    public function scopeForEvent($query, $eventID)
+    public static function buildFromIcao($icao)
     {
-        return $query->where('event_id', '=', $eventID);
+        $csv = \League\Csv\Reader::createFromPath(database_path("airports.csv"));
+        $airport = $csv
+            ->addFilter(function ($row) use ($icao) {
+                return strcasecmp($icao, $row[5]) == 0;
+            })->fetchOne();
+
+        return new Airfield([
+            "icao"      => $icao,
+            'iata'      => array_get($airport, 4, substr($icao, 1)),
+            'name'      => array_get($airport, 1, "Unknown Airport " . $icao),
+            'latitude'  => array_get($airport, 6, "0.0"),
+            'longitude' => array_get($airport, 7, "0.0"),
+            'timezone'  => array_get($airport, 11, "UTC"),
+        ]);
     }
 
-    public function scopeDeparture($query)
+    public function scopeType($query, $type)
     {
-        return $query->where('type', '=', 'departure');
+        return $query->whereType($type);
     }
 
     public function scopeArrival($query)
     {
-        return $query->where('type', '=', 'arrival');
+        return $query->type("arrival");
     }
 
-    public function event()
+    public function scopeDeparture($query)
     {
-        return $this->belongsTo(Event::class, 'event_id', 'id');
+        return $query->type("departure");
     }
 
     public function votes()
     {
         return $this->hasMany(Vote::class, 'airfield_id', 'id');
-    }
-
-    public function getIsDepartureAttribute()
-    {
-        return $this->type === 'departure';
-    }
-
-    public function getIsArrivalAttribute()
-    {
-        return $this->type === 'arrival';
     }
 }

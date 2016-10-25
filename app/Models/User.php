@@ -10,31 +10,39 @@ class User extends Authenticatable
 {
     use Authorizable, Notifiable;
 
+    public $incrementing = false;
+
     public function votesAll()
     {
         return $this->hasMany(Vote::class, 'user_id', 'id');
     }
 
-    public function votes()
-    {
-        return $this->votesAll()
-                    ->with('airfield')
-                    ->whereHas('airfield', function ($airfield) {
-                        $airfield->where('event_id', '=', Event::getCurrent()->id);
-                    });
+    public function voteType($type){
+        return $this->votesAll()->with("airfield")->whereHas("airfield", function($airfield) use($type){
+            return isset($airfield->type) && $airfield->type == $type;
+        });
     }
 
-    public function getHasVotedForDepartureAttribute()
+    public function getVoteType($type)
     {
-        return $this->votes->filter(function ($vote) {
-            return $vote->airfield->is_departure;
-        })->count() > 0;
+        return $this->voteType($type)->first();
     }
 
-    public function getHasVotedForArrivalAttribute()
+    public function getVoteDepartureAttribute()
     {
-        return $this->votes->filter(function ($vote) {
-            return $vote->airfield->is_arrival;
-        })->count() > 0;
+        return $this->getVoteType("departure");
+    }
+
+    public function getHasVotedForDepartureAttribute(){
+        return $this->vote_departure ? true : false;
+    }
+
+    public function getVoteArrivalAttribute()
+    {
+        return $this->getVoteType("arrival");
+    }
+
+    public function getHasVotedForArrivalAttribute(){
+        return $this->vote_arrival ? true : false;
     }
 }

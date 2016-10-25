@@ -15,11 +15,10 @@ class CreateMailingListsTable extends Migration
     {
         Schema::create('mailing_list', function (Blueprint $table) {
             $table->increments('id');
-            $table->integer('event_id');
             $table->string('email', 200);
             $table->timestamps();
 
-            $table->unique(['event_id', 'email']);
+            $table->unique(['email']);
         });
     }
 

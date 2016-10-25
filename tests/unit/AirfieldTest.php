@@ -1,14 +1,12 @@
 <?php
 
-use Illuminate\Foundation\Testing\WithoutMiddleware;
-use Illuminate\Foundation\Testing\DatabaseMigrations;
-use Illuminate\Foundation\Testing\DatabaseTransactions;
-
 class AirfieldTest extends TestCase
 {
     /** @test */
     public function it_can_create_a_new_airfield(){
+        $airport = \CTP\Models\Airfield::buildFromIcao("CYUL");
 
+        $airport->save();
     }
 
     /** @test */
@@ -23,7 +21,7 @@ class AirfieldTest extends TestCase
 
     /** @test */
     public function it_returns_the_correct_number_of_votes(){
-
+        
     }
 
     /** @test */
