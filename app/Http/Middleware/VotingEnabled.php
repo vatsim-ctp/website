@@ -3,7 +3,6 @@
 namespace CTP\Http\Middleware;
 
 use Closure;
-use CTP\Models\Event;
 
 class VotingEnabled
 {
@@ -18,7 +17,7 @@ class VotingEnabled
      */
     public function handle($request, Closure $next, $guard = null)
     {
-//        if ($currentEvent->is_voting_enabled && $request->is('landing')) {
+        //        if ($currentEvent->is_voting_enabled && $request->is('landing')) {
 //            return redirect()->route('voting.list');
 //        }
 //

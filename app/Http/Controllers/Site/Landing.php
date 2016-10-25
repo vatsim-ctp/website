@@ -7,7 +7,6 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Landing extends BaseController
 {
-
     public function getLanding(Request $request)
     {
         $alreadySubscribed = $request->cookie('mailing_list_subscribed', false);

@@ -19,14 +19,14 @@ class CreateAirfieldsTable extends Migration
             $table->string('iata', 3)->nullable();
             $table->string('name', 150);
             $table->enum('type', ['arrival', 'departure']);
-            $table->double("latitude", 10, 7)->default(0);
-            $table->double("longitude", 10, 7)->default(0);
+            $table->double('latitude', 10, 7)->default(0);
+            $table->double('longitude', 10, 7)->default(0);
             $table->string('timezone', 100)->nullable();
             $table->boolean('approved')->default(0);
             $table->timestamps();
 
-            $table->unique("icao");
-            $table->unique("iata");
+            $table->unique('icao');
+            $table->unique('iata');
         });
     }
 
