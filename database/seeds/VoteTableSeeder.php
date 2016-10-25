@@ -11,6 +11,6 @@ class VoteTableSeeder extends Seeder
      */
     public function run()
     {
-        //
+        factory(CTP\Models\Vote::class, 400)->create();
     }
 }

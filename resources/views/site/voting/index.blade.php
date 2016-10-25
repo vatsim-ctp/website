@@ -44,9 +44,25 @@
                     <h2>Departures</h2>
                     @if($canVoteOnDeparture)
                         <p>
-                            Please cast your vote for your chosen departure airfield. Remember, <strong>you can only vote
-                                once</strong> and it <strong>is not possible</strong> to change your vote after voting.
+                            Please cast your vote for your chosen departure airfield.
                         </p>
+                        <ul>
+                            <li>
+                                @if(setting("voting", "departures_successful") > 1)
+                                    The top
+                                    {{ setting("voting", "departures_successful") }} {{ str_plural("airfield", setting("voting", "departures_successful")) }}
+                                    will be selected.
+                                @else
+                                    The most voted for airfield will be selected.
+                                @endif
+                            </li>
+                            <li>
+                                You are only permitted {{ setting("voting", "departure_votes_allowed") }} {{ str_plural("vote", setting("voting", "departure_votes_allowed")) }}
+                            </li>
+                            <li>
+                                You <strong>cannot</strong> change your vote after it has been cast.
+                            </li>
+                        </ul>
                     @else
                         <p>Thank you for your vote!</p>
                     @endif
@@ -57,9 +73,25 @@
                     <h2>ARRIVALS</h2>
                     @if($canVoteOnArrival)
                         <p>
-                            Please cast your vote for your chosen arrival airfield. Remember, <strong>you can only vote
-                                once</strong> and it <strong>is not possible</strong> to change your vote after voting.
+                            Please cast your vote for your chosen arrival airfield.
                         </p>
+                        <ul>
+                            <li>
+                                @if(setting("voting", "arrivals_successful") > 1)
+                                    The top
+                                    {{ setting("voting", "arrivals_successful") }} {{ str_plural("airfield", setting("voting", "arrivals_successful")) }}
+                                    will be selected.
+                                @else
+                                    The most voted for airfield will be selected.
+                                @endif
+                            </li>
+                            <li>
+                                You are only permitted {{ setting("voting", "arrival_votes_allowed") }} {{ str_plural("vote", setting("voting", "arrival_votes_allowed")) }}
+                            </li>
+                            <li>
+                                You <strong>cannot</strong> change your vote after it has been cast.
+                            </li>
+                        </ul>
                     @else
                         <p>Thank you for your vote!</p>
                     @endif

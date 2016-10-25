@@ -14,7 +14,7 @@ class Voting extends BaseController
 {
     public function getIndex(Request $request)
     {
-        $hasVotedOnDeparture = Auth::user()->has_voted_for_departure;
+        $hasVotedOnDeparture = Auth::user()->hasVotedFor("departure");
         $canVoteOnDeparture = !$hasVotedOnDeparture;
 
         if ($canVoteOnDeparture) {
@@ -31,7 +31,7 @@ class Voting extends BaseController
             $departureAirfields = [];
         }
 
-        $hasVotedOnArrival = Auth::user()->has_voted_for_arrival;
+        $hasVotedOnArrival = Auth::user()->hasVotedFor("arrival");
         $canVoteOnArrival = !$hasVotedOnArrival;
 
         if ($canVoteOnArrival) {
@@ -60,7 +60,6 @@ class Voting extends BaseController
     public function postCast($type, Airfield $airfield, Request $request)
     {
         $vote = new Vote();
-        $vote->event_id = Event::getCurrent()->id;
         $vote->airfield_id = $airfield->id;
         $vote->user_id = Auth::user()->id;
 

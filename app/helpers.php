@@ -32,3 +32,20 @@ function setting($aspect, $code, $default = null)
 
     return $settingValue;
 }
+
+function voting_available()
+{
+    $votingStart = setting("voting", "open");
+
+    if (!$votingStart || !($votingStart instanceof \Carbon\Carbon)) {
+        return false;
+    }
+
+    $votingFinish = setting("voting", "close");
+
+    if (!$votingFinish || !($votingFinish instanceof \Carbon\Carbon)) {
+        return false;
+    }
+
+    return $votingStart->lt(\Carbon\Carbon::now()) && $votingFinish->gt(\Carbon\Carbon::now());
+}
