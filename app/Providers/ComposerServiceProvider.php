@@ -17,6 +17,11 @@ class ComposerServiceProvider extends ServiceProvider
         View::composer(
             '*', 'CTP\Http\Composers\Settings'
         );
+
+        View::composer(
+            ['admin.dashboard*'],
+            \CTP\Http\Composers\AdminDashboardStatistics::class
+        );
     }
 
     /**

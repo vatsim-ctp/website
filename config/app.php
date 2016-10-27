@@ -166,9 +166,10 @@ return [
         /*
          * Package Service Providers...
          */
-
+        Barryvdh\Debugbar\ServiceProvider::class,
         Collective\Html\HtmlServiceProvider::class,
         Vatsim\OAuth\OAuthServiceProvider::class,
+        Laracasts\Flash\FlashServiceProvider::class,
 
         //
 
@@ -229,9 +230,12 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        // 3rd-party
         'Form' => Collective\Html\FormFacade::class,
         'Html' => Collective\Html\HtmlFacade::class,
         'VatsimSSO' => Vatsim\OAuth\Facades\SSO::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
     ],
 
 ];

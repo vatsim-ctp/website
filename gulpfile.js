@@ -13,11 +13,16 @@ require('laravel-elixir-vue-2');
  |
  */
 
-elixir(function(mix) {
+elixir(function (mix) {
     mix.copy('resources/assets/images', 'public/assets/images/');
+    mix.copy('node_modules/bootstrap-sass/assets/fonts/bootstrap/', 'public/build/fonts/bootstrap');
+    mix.copy('node_modules/font-awesome/fonts/', 'public/fonts');
 
-    mix.sass('app.scss')
-        .browserify('app.js');
+    mix.sass('site.scss')
+        .browserify('site.js');
 
-    mix.version(['css/app.css', 'js/app.js']);
+    mix.sass('admin.scss')
+        .browserify('admin.js');
+
+    mix.version(['css/site.css', 'js/site.js', 'css/admin.css', 'js/admin.js']);
 });

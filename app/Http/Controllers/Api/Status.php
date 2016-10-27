@@ -19,6 +19,24 @@ class Status extends BaseController
     public function getStatus(Request $request)
     {
         if (voting_available()) {
+            $votingClose = setting('voting', 'close');
+
+            if ($votingClose instanceof \Carbon\Carbon && $votingClose->gt(\Carbon\Carbon::now())) {
+                $diff = \Carbon\Carbon::now()->diff($votingClose);
+
+                $verbose = 'Voting closes in ';
+                $verbose .= ($diff->m > 0) ? $diff->m.' '.str_plural('month', $diff->m).', ' : '';
+                $verbose .= ($diff->d > 0) ? $diff->d.' '.str_plural('day', $diff->d).', ' : '';
+                $verbose .= ($diff->h > 0) ? $diff->h.' '.str_plural('hour', $diff->h).', ' : '';
+                $verbose .= ($diff->i > 0) ? $diff->i.' '.str_plural('minute', $diff->i).', ' : '';
+                $verbose .= ($diff->s > 0) ? $diff->s.' '.str_plural('second', $diff->s).', ' : '';
+
+                return $this->returnStatus('voting', rtrim($verbose, ', '), [
+                    'timestamp' => $votingClose->toDateTimeString(),
+                    'timestamp_diff' => $votingClose->diffInSeconds(\Carbon\Carbon::now(), false),
+                ]);
+            }
+
             return $this->returnStatus('voting', 'Voting is open now!');
         }
 
@@ -33,7 +51,7 @@ class Status extends BaseController
             $verbose .= ($diff->i > 0) ? $diff->i.' '.str_plural('minute', $diff->i).', ' : '';
             $verbose .= ($diff->s > 0) ? $diff->s.' '.str_plural('second', $diff->s).', ' : '';
 
-            return $this->returnStatus('awaiting_vote', rtrim($verbose, ', '), [
+            return $this->returnStatus('voting_countdown', rtrim($verbose, ', '), [
                 'timestamp' => $votingOpen->toDateTimeString(),
                 'timestamp_diff' => $votingOpen->diffInSeconds(\Carbon\Carbon::now(), false),
             ]);

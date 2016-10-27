@@ -1,6 +1,6 @@
 <?php
 
-namespace CTP\Http\Controllers\Site;
+namespace CTP\Http\Controllers;
 
 use CTP\Models\User;
 use Illuminate\Http\Request;
@@ -11,6 +11,12 @@ use URL;
 
 class Authentication extends BaseController
 {
+    public function getLogout(Request $request){
+        Auth::logout();
+
+        return redirect("/");
+    }
+
     public function getLogin(Request $request)
     {
         if (\App::environment('local')) {
@@ -20,7 +26,7 @@ class Authentication extends BaseController
         }
 
         if (! $request->session()->has('auth_return')) {
-            $request->session()->set('auth_return', $request->input('returnURL', '/'));
+            $request->session()->set('auth_return', $request->input('return', '/'));
         }
 
         // Do we already have some kind of CID? If so, we can skip this bit and go to the redirect!

@@ -35,48 +35,46 @@
 </div>
 
 <div class="coming-soon-content">
-    <h3 id="statusMsg"></h3>
+    <h3 id="statusMsg">Please wait...</h3>
+</div>
 
-
-    <div class="coming-soon-subscribe container">
-        <div class="row">
-            <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
-                @if(!isset($alreadySubscribed) OR !$alreadySubscribed)
-                    {!! Form::open(["route" => "newsletter.subscribe", "method" => "POST"]) !!}
-                    <div class="input-group">
-                        <input type="text" class="form-control input-lg" placeholder="Please enter your email"
-                               name='email' id="email">
+<div class="coming-soon-subscribe container">
+    <div class="row">
+        <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
+            @if(!isset($alreadySubscribed) OR !$alreadySubscribed)
+                {!! Form::open(["route" => "newsletter.subscribe", "method" => "POST"]) !!}
+                <div class="input-group">
+                    <input type="text" class="form-control input-lg" placeholder="Please enter your email"
+                           name='email' id="email">
 
                                 <span class="input-group-btn">
                                     <input type="submit" class="btn btn-lg">Subscribe</button>
                                 </span>
 
-                    </div>
-                    {!! Form::close() !!}
-                    @if(count($errors) > 0)
-                        &nbsp;
-                        <div class="alert alert-danger" role="alert">
-                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                            <span class="sr-only">Error:</span>
-                            Enter a valid email address
-                        </div>
-                    @endif
-                    <p>Subscribe for Cross The Pond news and updates!</p>
-                @else
-                    <p>Thanks for subscribing! We will send any news directly to your inbox.</p>
-                @endif
-            </div>
-            <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
-                <div class="coming-soon-social">
-                    <a href="http://www.twitter.com/vatsimctp" target="_blank" data-toggle="tooltip"
-                       data-original-title="Join Us!" data-placement="top" class="show-tooltip">
-                        <i class="icon-twitter"></i>
-                    </a>
                 </div>
+                {!! Form::close() !!}
+                @if(count($errors) > 0)
+                    &nbsp;
+                    <div class="alert alert-danger" role="alert">
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        <span class="sr-only">Error:</span>
+                        Enter a valid email address
+                    </div>
+                @endif
+                <p>Subscribe for Cross The Pond news and updates!</p>
+            @else
+                <p>Thanks for subscribing! We will send any news directly to your inbox.</p>
+            @endif
+        </div>
+        <div class="col-lg-4 col-lg-offset-4 col-sm-6 col-sm-offset-3">
+            <div class="coming-soon-social">
+                <a href="http://www.twitter.com/vatsimctp" target="_blank" data-toggle="tooltip"
+                   data-original-title="Join Us!" data-placement="top" class="show-tooltip">
+                    <i class="icon-twitter"></i>
+                </a>
             </div>
         </div>
     </div>
-
 </div>
 
 <!-- Javascripts -->
@@ -99,7 +97,7 @@
 
                 default:
                     $(status_message).html(data.verbose);
-                    setTimeout(updateStatus, 5000);
+                    setTimeout(updateStatus, 60000);
                     break;
             }
         });
@@ -155,8 +153,6 @@
         updateStatus();
         setInterval(votingCountdown, 1000);
     });
-
-    $('.show-tooltip').tooltip();
 
     var firstTime = true;
     $(window).on('load', function () {

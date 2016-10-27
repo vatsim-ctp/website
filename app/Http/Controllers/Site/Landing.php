@@ -11,6 +11,6 @@ class Landing extends BaseController
     {
         $alreadySubscribed = $request->cookie('mailing_list_subscribed', false);
 
-        return view('site.landing')->with('alreadySubscribed', $alreadySubscribed);
+        return view('site.landing.landing')->with('alreadySubscribed', $alreadySubscribed);
     }
 }
