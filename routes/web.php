@@ -19,7 +19,7 @@ Route::get('/logout', [
     'uses' => 'Authentication@getLogout',
 ]);
 
-Route::group(['namespace' => 'Site', "middleware" => "is.setup"], function () {
+Route::group(['namespace' => 'Site', 'middleware' => 'is.setup'], function () {
     Route::get('/landing', [
         'as'   => 'landing',
         'uses' => 'Landing@getLanding',
