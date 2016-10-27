@@ -1764,8 +1764,19 @@ span.color-red {
 /*--------------------------------------------------------------------------
 +   Voting Page
 --------------------------------------------------------------------------*/
+.voting-content {
+   text-align: center;
+ }
 .voting-content p {
   color: #888888;
+}
+.voting-content h3 {
+  font-size: 3em;
+  line-height: 1.3em;
+  font-weight: 400;
+  color: #FFF;
+  margin-bottom: 40px;
+  text-shadow: 1px 1px 8px #000000;
 }
 .voting-list {
   width: 100%;

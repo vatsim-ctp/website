@@ -2,8 +2,10 @@
 
 namespace CTP\Http\Controllers\Admin;
 
+use Artisan;
 use Cache;
 use CTP\Models\Setting;
+use Hash;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -11,13 +13,18 @@ class Settings extends BaseController
 {
     public function getIndex(Request $request)
     {
-        $settings = Setting::all();
-        $groups = Setting::getGroups();
+        if (is_setup_complete()) {
+            $settings = Setting::editable()->get();
+        } else {
+            $settings = Setting::all();
+        }
+
+        $groups = $settings->pluck("aspect")->unique();
 
         $settings_grouped = collect();
 
         $settings->each(function ($item, $key) use ($settings_grouped) {
-            if (! $settings_grouped->has($item->aspect)) {
+            if (!$settings_grouped->has($item->aspect)) {
                 $settings_grouped->put($item->aspect, collect());
             }
 
@@ -31,7 +38,13 @@ class Settings extends BaseController
 
     public function postUpdate(Request $request)
     {
-        $validator = \Validator::make($request->all(), Setting::buildValidatorRules());
+        if (is_setup_complete()) {
+            $settings = Setting::editable()->get();
+        } else {
+            $settings = Setting::all();
+        }
+
+        $validator = \Validator::make($request->all(), Setting::buildValidatorRules(is_setup_complete()));
 
         if ($validator->fails()) {
             flash('There were some errors with your input.  Your settings were <strong>not saved</strong>.', 'danger');
@@ -39,10 +52,10 @@ class Settings extends BaseController
             return redirect()->back()->withErrors($validator);
         }
 
-        foreach (Setting::all() as $setting) {
-            $key = $setting->aspect.'.'.$setting->code;
+        foreach ($settings as $setting) {
+            $key = $setting->aspect . '.' . $setting->code;
 
-            if (! $request->has($key)) {
+            if (!$request->has($key)) {
                 continue;
             }
 
@@ -53,11 +66,24 @@ class Settings extends BaseController
             $setting->value = $request->input($key);
             $setting->save();
 
-            Cache::forget('setting_'.$setting->aspect.'_'.$setting->code);
+            Cache::forget('setting_' . $setting->aspect . '_' . $setting->code);
         }
 
         flash('Settings have been saved!', 'success');
 
         return redirect()->route('admin.settings.index');
+    }
+
+    public function postReset(Request $request)
+    {
+        if(!Hash::check($request->input("authorisation_code"), setting("system", "authorisation_code"))){
+            flash("You did not enter the correct authorisation code.", "danger");
+
+            return redirect()->back();
+        }
+
+        Artisan::call("down");
+
+        return redirect()->back();
     }
 }

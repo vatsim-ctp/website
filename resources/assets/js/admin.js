@@ -1,6 +1,7 @@
 window.$ = window.jQuery = require('jquery');
 
 require('bootstrap-sass');
+require('bootstrap-select');
 
 $( document ).ready(function() {
     $('.show-tooltip').tooltip();

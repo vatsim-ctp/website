@@ -1,5 +1,9 @@
 <?php
 
+function is_setup_complete(){
+    return setting("system", "authorisation_code") !== null;
+}
+
 function setting($aspect, $code, $default = null)
 {
     $cacheKey = 'setting_'.$aspect.'_'.$code;
@@ -35,6 +39,10 @@ function setting($aspect, $code, $default = null)
 
 function voting_available()
 {
+    if(!is_setup_complete()){
+        return false;
+    }
+
     $votingStart = setting('voting', 'open');
 
     if (! $votingStart || ! ($votingStart instanceof \Carbon\Carbon)) {

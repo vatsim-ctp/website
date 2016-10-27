@@ -66,5 +66,12 @@ class SettingTableSeeder extends Seeder
               'value'      => \Carbon\Carbon::now()->addDays(4)->toDateTimeString(),
               'updated_at' => \Carbon\Carbon::now(),
           ]);
+
+        DB::table('settings')->where('aspect', '=', 'system')
+          ->where('code', '=', 'authorisation_code')
+          ->update([
+              'value'      => Hash::make("mango-orange"),
+              'updated_at' => \Carbon\Carbon::now(),
+          ]);
     }
 }

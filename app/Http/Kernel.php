@@ -14,7 +14,7 @@ class Kernel extends HttpKernel
      * @var array
      */
     protected $middleware = [
-        \Illuminate\Foundation\Http\Middleware\CheckForMaintenanceMode::class,
+        \CTP\Http\Middleware\CheckForMaintenanceMode::class,
     ];
 
     /**
@@ -52,6 +52,7 @@ class Kernel extends HttpKernel
         'can' => \Illuminate\Auth\Middleware\Authorize::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'auth.admin' => \CTP\Http\Middleware\IsAdmin::class,
+        'is.setup' => \CTP\Http\Middleware\IsSetup::class,
         'voting.enabled' => \CTP\Http\Middleware\VotingEnabled::class,
     ];
 }

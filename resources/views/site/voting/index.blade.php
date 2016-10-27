@@ -16,9 +16,9 @@
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,700,600,800' rel='stylesheet' type='text/css'>
 
-    <link rel="stylesheet" href="{{ elixir('css/app.css') }}">
+    <link rel="stylesheet" href="{{ elixir('css/site.css') }}">
 
-    <script src="{{ elixir('js/app.js') }}"></script>
+    <script src="{{ elixir('js/site.js') }}"></script>
 </head>
 <body>
 <!--[if lt IE 7]>

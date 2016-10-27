@@ -19,7 +19,7 @@ Route::get('/logout', [
     'uses' => 'Authentication@getLogout',
 ]);
 
-Route::group(['namespace' => 'Site'], function () {
+Route::group(['namespace' => 'Site', "middleware" => "is.setup"], function () {
     Route::get('/landing', [
         'as'   => 'landing',
         'uses' => 'Landing@getLanding',
@@ -56,7 +56,7 @@ Route::group(['namespace' => 'Site'], function () {
 });
 
 
-Route::group(['namespace' => 'Admin', 'middleware' => ['auth.admin'], 'as' => 'admin.', 'prefix' => '/admin'], function () {
+Route::group(['namespace' => 'Admin', 'middleware' => ['auth.admin', 'is.setup'], 'as' => 'admin.', 'prefix' => '/admin'], function () {
     Route::get('/', [
         'as' => 'dashboard',
         'uses' => 'Dashboard@getDashboard',
@@ -106,6 +106,11 @@ Route::group(['namespace' => 'Admin', 'middleware' => ['auth.admin'], 'as' => 'a
         Route::post('/update', [
             'as' => 'update',
             'uses' => 'Settings@postUpdate',
+        ]);
+
+        Route::post('/reset', [
+            'as' => 'reset',
+            'uses' => 'Settings@postReset',
         ]);
     });
 });

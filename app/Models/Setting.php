@@ -6,6 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Setting extends Model
 {
+    public function scopeEditable($query)
+    {
+        return $query->where("editable", "=", 1);
+    }
+
+    public function scopeRequired($query)
+    {
+        return $query->where("required", "=", 1);
+    }
+
     public function scopeAspect($query, $aspect)
     {
         return $query->where('aspect', 'LIKE', $aspect);
@@ -29,19 +39,20 @@ class Setting extends Model
     public static function getGroups()
     {
         $groups = self::select('aspect')
-                         ->distinct()
-                         ->get()
-                         ->pluck('aspect');
+                      ->distinct()
+                      ->get()
+                      ->pluck('aspect');
 
         return $groups;
     }
 
-    public static function buildValidatorRules()
+    public static function buildValidatorRules($editableOnly = true)
     {
+        $settings = $editableOnly ? self::editable()->get() : self::all();
         $rules = [];
 
-        foreach (self::all() as $setting) {
-            $key = $setting->aspect.'.'.$setting->code;
+        foreach ($settings as $setting) {
+            $key = $setting->aspect . '.' . $setting->code;
 
             $rule = '';
 
@@ -56,14 +67,14 @@ class Setting extends Model
             } elseif ($setting->type == 'time') {
                 $rule .= 'date_format:H:i:s|';
             } else {
-                $rule .= $setting->type.'|';
+                $rule .= $setting->type . '|';
             }
 
             if ($setting->value_options !== null) {
-                $rule .= 'in:'.implode(',', $setting->value_options).'|';
+                $rule .= 'in:' . implode(',', $setting->value_options) . '|';
             }
 
-            $rule .= $setting->type_validation.'|';
+            $rule .= $setting->type_validation . '|';
 
             $rules[$key] = rtrim($rule, '|');
         }
@@ -76,9 +87,18 @@ class Setting extends Model
         return json_decode($this->attributes['value_options']);
     }
 
+    public function setValueAttribute($value)
+    {
+        if ($this->attributes['hash']) {
+            $value = \Hash::make($value);
+        }
+
+        $this->attributes['value'] = $value;
+    }
+
     public function getValueOrDefaultAttribute()
     {
-        if (! $this->attributes['value']) {
+        if (!$this->attributes['value']) {
             return $this->attributes['value_default'];
         }
 
@@ -87,12 +107,12 @@ class Setting extends Model
 
     public function getFormNameAttribute()
     {
-        return $this->attributes['aspect'].'['.$this->attributes['code'].']';
+        return $this->attributes['aspect'] . '[' . $this->attributes['code'] . ']';
     }
 
     public function getNameAttribute()
     {
-        $name = $this->attributes['aspect'].' '.$this->attributes['code'];
+        $name = $this->attributes['aspect'] . ' ' . $this->attributes['code'];
 
         return ucwords(str_replace('_', ' ', $name));
     }

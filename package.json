@@ -7,6 +7,7 @@
   "devDependencies": {
     "bootstrap-sass": "^3.3.7",
     "font-awesome": "*",
+    "bootstrap-select": "*",
     "gulp": "^3.9.1",
     "jquery": "^3.1.0",
     "laravel-elixir": "^6.0.0-9",
