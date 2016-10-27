@@ -27,11 +27,11 @@ class AdminDashboardStatistics
     public function compose(View $view)
     {
         $statistics_total_users = User::all()->count();
-        $statistics_total_users_on_mailing_list = User::where("is_subscribed", "=", 1)->count();
+        $statistics_total_users_on_mailing_list = User::where('is_subscribed', '=', 1)->count();
         $statistics_percentage_users_on_mailing_list = ($statistics_total_users_on_mailing_list / $statistics_total_users) * 100;
 
-        $view->with("total_users", $statistics_total_users)
-             ->with("total_users_on_mailing_list", $statistics_total_users_on_mailing_list)
-             ->with("percentage_users_on_mailing_list", $statistics_percentage_users_on_mailing_list);
+        $view->with('total_users', $statistics_total_users)
+             ->with('total_users_on_mailing_list', $statistics_total_users_on_mailing_list)
+             ->with('percentage_users_on_mailing_list', $statistics_percentage_users_on_mailing_list);
     }
 }

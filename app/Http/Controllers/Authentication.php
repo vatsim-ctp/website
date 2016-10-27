@@ -11,10 +11,11 @@ use URL;
 
 class Authentication extends BaseController
 {
-    public function getLogout(Request $request){
+    public function getLogout(Request $request)
+    {
         Auth::logout();
 
-        return redirect("/");
+        return redirect('/');
     }
 
     public function getLogin(Request $request)

@@ -4,7 +4,6 @@ namespace CTP\Http\Controllers\Admin;
 
 use Cache;
 use CTP\Models\Setting;
-use Hamcrest\Core\Set;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 
@@ -18,7 +17,7 @@ class Settings extends BaseController
         $settings_grouped = collect();
 
         $settings->each(function ($item, $key) use ($settings_grouped) {
-            if (!$settings_grouped->has($item->aspect)) {
+            if (! $settings_grouped->has($item->aspect)) {
                 $settings_grouped->put($item->aspect, collect());
             }
 
@@ -26,39 +25,39 @@ class Settings extends BaseController
         });
 
         return view('admin.settings.index')
-            ->with("groups", $groups)
-            ->with("settings", $settings_grouped);
+            ->with('groups', $groups)
+            ->with('settings', $settings_grouped);
     }
 
     public function postUpdate(Request $request)
     {
         $validator = \Validator::make($request->all(), Setting::buildValidatorRules());
 
-        if($validator->fails()){
-            flash("There were some errors with your input.  Your settings were <strong>not saved</strong>.", "danger");
+        if ($validator->fails()) {
+            flash('There were some errors with your input.  Your settings were <strong>not saved</strong>.', 'danger');
 
             return redirect()->back()->withErrors($validator);
         }
 
-        foreach(Setting::all() as $setting){
-            $key = $setting->aspect.".".$setting->code;
+        foreach (Setting::all() as $setting) {
+            $key = $setting->aspect.'.'.$setting->code;
 
-            if(!$request->has($key)){
+            if (! $request->has($key)) {
                 continue;
             }
 
-            if($request->input($key) == $setting->value_default){
+            if ($request->input($key) == $setting->value_default) {
                 continue;
             }
 
             $setting->value = $request->input($key);
             $setting->save();
 
-            Cache::forget("setting_".$setting->aspect."_".$setting->code);
+            Cache::forget('setting_'.$setting->aspect.'_'.$setting->code);
         }
 
-        flash("Settings have been saved!", "success");
+        flash('Settings have been saved!', 'success');
 
-        return redirect()->route("admin.settings.index");
+        return redirect()->route('admin.settings.index');
     }
 }
