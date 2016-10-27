@@ -18,12 +18,12 @@ class IsAdmin
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        if(!Auth::check()){
-            return redirect()->route("login", ["return" => $request->fullUrl()]);
+        if (! Auth::check()) {
+            return redirect()->route('login', ['return' => $request->fullUrl()]);
         }
 
-        if(!Auth::user()->admin){
-            return redirect("/");
+        if (! Auth::user()->admin) {
+            return redirect('/');
         }
 
         return $next($request);

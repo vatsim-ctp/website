@@ -19,9 +19,9 @@ class CreateSettingsTable extends Migration
             $table->string('code', 100);
             $table->enum('type', ['string', 'text', 'boolean', 'number', 'timestamp', 'date', 'time'])
                   ->default('string');
-            $table->string('type_validation', 100)->default("");
+            $table->string('type_validation', 100)->default('');
             $table->text('description');
-            $table->boolean("required")->default(0);
+            $table->boolean('required')->default(0);
             $table->text('value')->nullable();
             $table->text('value_default')->nullable();
             $table->text('value_options')->nullable();

@@ -28,10 +28,10 @@ class Setting extends Model
 
     public static function getGroups()
     {
-        $groups = Setting::select("aspect")
+        $groups = self::select('aspect')
                          ->distinct()
                          ->get()
-                         ->pluck("aspect");
+                         ->pluck('aspect');
 
         return $groups;
     }
@@ -40,32 +40,32 @@ class Setting extends Model
     {
         $rules = [];
 
-        foreach (Setting::all() as $setting) {
-            $key = $setting->aspect . "." . $setting->code;
+        foreach (self::all() as $setting) {
+            $key = $setting->aspect.'.'.$setting->code;
 
-            $rule = "";
+            $rule = '';
 
             if ($setting->required) {
-                $rule .= "required|";
+                $rule .= 'required|';
             } else {
-                $rule .= "nullable|";
+                $rule .= 'nullable|';
             }
 
-            if ($setting->type == "date" || $setting->type == "timestamp") {
-                $rule .= "date|";
-            } elseif ($setting->type == "time") {
-                $rule .= "date_format:H:i:s|";
+            if ($setting->type == 'date' || $setting->type == 'timestamp') {
+                $rule .= 'date|';
+            } elseif ($setting->type == 'time') {
+                $rule .= 'date_format:H:i:s|';
             } else {
-                $rule .= $setting->type . "|";
+                $rule .= $setting->type.'|';
             }
 
             if ($setting->value_options !== null) {
-                $rule .= "in:" . implode(",", $setting->value_options) . "|";
+                $rule .= 'in:'.implode(',', $setting->value_options).'|';
             }
 
-            $rule .= $setting->type_validation . "|";
+            $rule .= $setting->type_validation.'|';
 
-            $rules[$key] = rtrim($rule, "|");
+            $rules[$key] = rtrim($rule, '|');
         }
 
         return $rules;
@@ -78,7 +78,7 @@ class Setting extends Model
 
     public function getValueOrDefaultAttribute()
     {
-        if (!$this->attributes['value']) {
+        if (! $this->attributes['value']) {
             return $this->attributes['value_default'];
         }
 
@@ -87,14 +87,14 @@ class Setting extends Model
 
     public function getFormNameAttribute()
     {
-        return $this->attributes['aspect'] . "[" . $this->attributes['code'] . "]";
+        return $this->attributes['aspect'].'['.$this->attributes['code'].']';
     }
 
     public function getNameAttribute()
     {
-        $name = $this->attributes['aspect'] . " " . $this->attributes['code'];
+        $name = $this->attributes['aspect'].' '.$this->attributes['code'];
 
-        return ucwords(str_replace("_", " ", $name));
+        return ucwords(str_replace('_', ' ', $name));
     }
 
     public function getHasChangedAttribute()

@@ -6,8 +6,6 @@ use CTP\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller as BaseController;
 use Auth;
-use VatsimSSO;
-use URL;
 
 class Account extends BaseController
 {
@@ -16,13 +14,13 @@ class Account extends BaseController
         Auth::user()->is_subscribed = true;
         Auth::user()->save();
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return response()->json([
-                "status" => "OK",
-                "subscribed" => Auth::user()->is_subscribed,
+                'status' => 'OK',
+                'subscribed' => Auth::user()->is_subscribed,
             ]);
         } else {
-            return redirect("/");
+            return redirect('/');
         }
     }
 
@@ -31,13 +29,13 @@ class Account extends BaseController
         Auth::user()->is_subscribed = false;
         Auth::user()->save();
 
-        if($request->ajax()){
+        if ($request->ajax()) {
             return response()->json([
-                "status" => "OK",
-                "subscribed" => Auth::user()->is_subscribed,
+                'status' => 'OK',
+                'subscribed' => Auth::user()->is_subscribed,
             ]);
         } else {
-            return redirect("/");
+            return redirect('/');
         }
     }
 }
