@@ -70,7 +70,7 @@ class SettingTableSeeder extends Seeder
         DB::table('settings')->where('aspect', '=', 'system')
           ->where('code', '=', 'authorisation_code')
           ->update([
-              'value'      => Hash::make("mango-orange"),
+              'value'      => Hash::make('mango-orange'),
               'updated_at' => \Carbon\Carbon::now(),
           ]);
     }

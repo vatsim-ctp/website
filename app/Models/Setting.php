@@ -8,12 +8,12 @@ class Setting extends Model
 {
     public function scopeEditable($query)
     {
-        return $query->where("editable", "=", 1);
+        return $query->where('editable', '=', 1);
     }
 
     public function scopeRequired($query)
     {
-        return $query->where("required", "=", 1);
+        return $query->where('required', '=', 1);
     }
 
     public function scopeAspect($query, $aspect)
@@ -52,7 +52,7 @@ class Setting extends Model
         $rules = [];
 
         foreach ($settings as $setting) {
-            $key = $setting->aspect . '.' . $setting->code;
+            $key = $setting->aspect.'.'.$setting->code;
 
             $rule = '';
 
@@ -67,14 +67,14 @@ class Setting extends Model
             } elseif ($setting->type == 'time') {
                 $rule .= 'date_format:H:i:s|';
             } else {
-                $rule .= $setting->type . '|';
+                $rule .= $setting->type.'|';
             }
 
             if ($setting->value_options !== null) {
-                $rule .= 'in:' . implode(',', $setting->value_options) . '|';
+                $rule .= 'in:'.implode(',', $setting->value_options).'|';
             }
 
-            $rule .= $setting->type_validation . '|';
+            $rule .= $setting->type_validation.'|';
 
             $rules[$key] = rtrim($rule, '|');
         }
@@ -98,7 +98,7 @@ class Setting extends Model
 
     public function getValueOrDefaultAttribute()
     {
-        if (!$this->attributes['value']) {
+        if (! $this->attributes['value']) {
             return $this->attributes['value_default'];
         }
 
@@ -107,7 +107,7 @@ class Setting extends Model
 
     public function getFormNameAttribute()
     {
-        return $this->attributes['aspect'] . '[' . $this->attributes['code'] . ']';
+        return $this->attributes['aspect'].'['.$this->attributes['code'].']';
     }
 
     public function getFormNameReferenceAttribute()
@@ -117,7 +117,7 @@ class Setting extends Model
 
     public function getNameAttribute()
     {
-        $name = $this->attributes['aspect'] . ' ' . $this->attributes['code'];
+        $name = $this->attributes['aspect'].' '.$this->attributes['code'];
 
         return ucwords(str_replace('_', ' ', $name));
     }

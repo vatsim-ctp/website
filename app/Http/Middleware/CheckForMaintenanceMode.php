@@ -37,7 +37,7 @@ class CheckForMaintenanceMode
      */
     public function handle($request, Closure $next)
     {
-        if(!is_setup_complete() && !$request->is("admin*")){
+        if (! is_setup_complete() && ! $request->is('admin*')) {
             throw new MaintenanceModeException(time());
         }
 
