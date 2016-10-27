@@ -59,7 +59,8 @@ function status_voting_available()
     return $votingStart->lt(\Carbon\Carbon::now()) && $votingFinish->gt(\Carbon\Carbon::now());
 }
 
-function status_before_voting(){
+function status_before_voting()
+{
     $votingStart = setting('voting', 'open');
 
     if (! $votingStart || ! ($votingStart instanceof \Carbon\Carbon)) {
@@ -69,7 +70,8 @@ function status_before_voting(){
     return $votingStart->gt(\Carbon\Carbon::now());
 }
 
-function status_after_voting(){
+function status_after_voting()
+{
     $votingFinish = setting('voting', 'close');
 
     if (! $votingFinish || ! ($votingFinish instanceof \Carbon\Carbon)) {
@@ -79,6 +81,7 @@ function status_after_voting(){
     return $votingFinish->lt(\Carbon\Carbon::now());
 }
 
-function status_voting_results(){
-    return status_after_voting() && setting("voting", "publish_results");
+function status_voting_results()
+{
+    return status_after_voting() && setting('voting', 'publish_results');
 }

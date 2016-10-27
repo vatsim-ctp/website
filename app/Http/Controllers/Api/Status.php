@@ -18,13 +18,13 @@ class Status extends BaseController
 
     public function getStatus(Request $request)
     {
-        $status = "";
+        $status = '';
 
-        if (!is_setup_complete()) {
-            return $this->returnStatus("closed", "We're all resting at the minute...");
+        if (! is_setup_complete()) {
+            return $this->returnStatus('closed', "We're all resting at the minute...");
         }
 
-        if (status_before_voting() && setting("voting", "open") != null) {
+        if (status_before_voting() && setting('voting', 'open') != null) {
             return $this->returnVotingCountdown();
         }
 
@@ -32,7 +32,7 @@ class Status extends BaseController
             return $this->returnVotingOpen();
         }
 
-        if (status_after_voting() && !status_voting_results()) {
+        if (status_after_voting() && ! status_voting_results()) {
             return $this->returnVotingCounting();
         }
 
@@ -40,7 +40,7 @@ class Status extends BaseController
             return $this->returnVotingResults();
         }
 
-        return $this->returnStatus('planning', "We're busy planning " . setting('event', 'name'));
+        return $this->returnStatus('planning', "We're busy planning ".setting('event', 'name'));
     }
 
     private function returnVotingOpen()
@@ -51,11 +51,11 @@ class Status extends BaseController
             $diff = \Carbon\Carbon::now()->diff($votingClose);
 
             $verbose = 'Voting closes in ';
-            $verbose .= ($diff->m > 0) ? $diff->m . ' ' . str_plural('month', $diff->m) . ', ' : '';
-            $verbose .= ($diff->d > 0) ? $diff->d . ' ' . str_plural('day', $diff->d) . ', ' : '';
-            $verbose .= ($diff->h > 0) ? $diff->h . ' ' . str_plural('hour', $diff->h) . ', ' : '';
-            $verbose .= ($diff->i > 0) ? $diff->i . ' ' . str_plural('minute', $diff->i) . ', ' : '';
-            $verbose .= ($diff->s > 0) ? $diff->s . ' ' . str_plural('second', $diff->s) . ', ' : '';
+            $verbose .= ($diff->m > 0) ? $diff->m.' '.str_plural('month', $diff->m).', ' : '';
+            $verbose .= ($diff->d > 0) ? $diff->d.' '.str_plural('day', $diff->d).', ' : '';
+            $verbose .= ($diff->h > 0) ? $diff->h.' '.str_plural('hour', $diff->h).', ' : '';
+            $verbose .= ($diff->i > 0) ? $diff->i.' '.str_plural('minute', $diff->i).', ' : '';
+            $verbose .= ($diff->s > 0) ? $diff->s.' '.str_plural('second', $diff->s).', ' : '';
 
             return $this->returnStatus('voting', rtrim($verbose, ', '), [
                 'timestamp'      => $votingClose->toDateTimeString(),
@@ -74,27 +74,26 @@ class Status extends BaseController
             $diff = \Carbon\Carbon::now()->diff($votingOpen);
 
             $verbose = 'Voting starts in ';
-            $verbose .= ($diff->m > 0) ? $diff->m . ' ' . str_plural('month', $diff->m) . ', ' : '';
-            $verbose .= ($diff->d > 0) ? $diff->d . ' ' . str_plural('day', $diff->d) . ', ' : '';
-            $verbose .= ($diff->h > 0) ? $diff->h . ' ' . str_plural('hour', $diff->h) . ', ' : '';
-            $verbose .= ($diff->i > 0) ? $diff->i . ' ' . str_plural('minute', $diff->i) . ', ' : '';
-            $verbose .= ($diff->s > 0) ? $diff->s . ' ' . str_plural('second', $diff->s) . ', ' : '';
+            $verbose .= ($diff->m > 0) ? $diff->m.' '.str_plural('month', $diff->m).', ' : '';
+            $verbose .= ($diff->d > 0) ? $diff->d.' '.str_plural('day', $diff->d).', ' : '';
+            $verbose .= ($diff->h > 0) ? $diff->h.' '.str_plural('hour', $diff->h).', ' : '';
+            $verbose .= ($diff->i > 0) ? $diff->i.' '.str_plural('minute', $diff->i).', ' : '';
+            $verbose .= ($diff->s > 0) ? $diff->s.' '.str_plural('second', $diff->s).', ' : '';
 
             return $this->returnStatus('voting_countdown', rtrim($verbose, ', '), [
                 'timestamp'      => $votingOpen->toDateTimeString(),
                 'timestamp_diff' => $votingOpen->diffInSeconds(\Carbon\Carbon::now(), false),
             ]);
         }
-
     }
 
     private function returnVotingCounting()
     {
-        return "";
+        return '';
     }
 
     private function returnVotingResults()
     {
-        return "";
+        return '';
     }
 }
