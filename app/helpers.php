@@ -1,7 +1,8 @@
 <?php
 
-function is_setup_complete(){
-    return setting("system", "authorisation_code") !== null;
+function is_setup_complete()
+{
+    return setting('system', 'authorisation_code') !== null;
 }
 
 function setting($aspect, $code, $default = null)
@@ -39,7 +40,7 @@ function setting($aspect, $code, $default = null)
 
 function voting_available()
 {
-    if(!is_setup_complete()){
+    if (! is_setup_complete()) {
         return false;
     }
 

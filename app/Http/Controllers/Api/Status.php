@@ -18,8 +18,8 @@ class Status extends BaseController
 
     public function getStatus(Request $request)
     {
-        if(!is_setup_complete()){
-            return $this->returnStatus("closed", "We're all resting at the minute...");
+        if (! is_setup_complete()) {
+            return $this->returnStatus('closed', "We're all resting at the minute...");
         }
 
         if (voting_available()) {
