@@ -19,10 +19,10 @@ elixir(function (mix) {
     mix.copy('node_modules/font-awesome/fonts/', 'public/fonts');
 
     mix.sass('site.scss')
-        .browserify('site.js');
+        .browserify(['global.js', 'site.js'], "public/assets/js/site.js");
 
     mix.sass('admin.scss')
-        .browserify('admin.js');
+        .browserify(['global.js', 'admin.js'], "public/assets/js/admin.js");
 
     mix.version(['css/site.css', 'js/site.js', 'css/admin.css', 'js/admin.js']);
 });
