@@ -49,7 +49,7 @@ class Settings extends BaseController
         if ($validator->fails()) {
             flash('There were some errors with your input.  Your settings were <strong>not saved</strong>.', 'danger');
 
-            return redirect()->back()->withErrors($validator);
+            return redirect()->back()->withInput()->withErrors($validator);
         }
 
         foreach ($settings as $setting) {

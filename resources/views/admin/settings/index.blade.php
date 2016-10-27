@@ -5,6 +5,7 @@
 @stop
 
 @section("content")
+
     <div class="col-md-12 col-sm-12">
         {{ Form::open(["route" => "admin.settings.update", "method" => "POST"]) }}
         <div class="panel panel-default">

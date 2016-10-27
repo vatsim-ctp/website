@@ -110,6 +110,11 @@ class Setting extends Model
         return $this->attributes['aspect'] . '[' . $this->attributes['code'] . ']';
     }
 
+    public function getFormNameReferenceAttribute()
+    {
+        return $this->attributes['aspect'] . '.' . $this->attributes['code'];
+    }
+
     public function getNameAttribute()
     {
         $name = $this->attributes['aspect'] . ' ' . $this->attributes['code'];

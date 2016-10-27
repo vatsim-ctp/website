@@ -1,3 +1,3 @@
 <input type="{{ $setting->hash ? "password" : "text" }}" class="form-control" id="{{ $setting->form_name }}"
        name="{{ $setting->form_name }}"
-       value="{{ old($setting->form_name, $setting->value) }}"/>
+       value="{{ old($setting->form_name_reference, $setting->value) }}"/>
